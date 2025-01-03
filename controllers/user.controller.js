@@ -1,13 +1,26 @@
-const helloToUser = async(req, res) => {
+const { vehicleRegisterService } = require("../services/user.service");
 
-    const a = 1;
-    const b = 2;
-
-    const c = a + b;
-
-  res.send(`Hello User! ${c}`);
+const registerBus = async (req, res) => {
+  try {
+    const vehicleData = req.body;
+    const newvehicle = await vehicleRegisterService(vehicleData);
+    if (newvehicle) {
+      return res.status(200).json({
+        message: "New vehicle registered successfully",
+        newvehicle,
+      });
+    }
+    return res.status(400).json({
+      message: "Registration process did not succeed.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
 };
 
 module.exports = {
-  helloToUser,
+  registerBus,
 };

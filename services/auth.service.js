@@ -2,7 +2,7 @@ const {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } = require("firebase/auth");
-const { auth, db } = require("../configs/firebase");
+const { auth } = require("../configs/firebase");
 
 const registerService = async (username, email, password) => {
   try {
