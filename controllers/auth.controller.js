@@ -50,6 +50,8 @@ const refreshToken = async (req, res) => {
 
 const verifyRegisterOtp = async (req, res) => {
   // verify register otp controller logic
+  console.log("verifyRegisterOtp");
+  console.log(req.body);
 };
 
 module.exports = {

@@ -1,17 +1,17 @@
-require("dotenv").config();
+const config = require('./config').firebase;
 const { initializeApp } = require("firebase/app");
 const { getAuth } = require("firebase/auth");
 const { getFirestore } = require("firebase/firestore");
 const { getStorage } = require("firebase/storage");
 
 const firebaseConfig = {
-  apiKey: process.env.apiKey,
-  authDomain: process.env.authDomain,
-  projectId: process.env.projectId,
-  storageBucket: process.env.storageBucket,
-  messagingSenderId: process.env.messagingSenderId,
-  appId: process.env.appId,
-  measurementId: process.env.measurementId,
+  apiKey: config.apiKey,
+  authDomain: config.authDomain,
+  projectId: config.projectId,
+  storageBucket: config.storageBucket,
+  messagingSenderId: config.messagingSenderId,
+  appId: config.appId,
+  measurementId: config.measurementId,
 };
 
 // Initialize Firebase

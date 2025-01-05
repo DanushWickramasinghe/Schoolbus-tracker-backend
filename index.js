@@ -2,6 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+// import the database connection
+const sequelize = require('./configs/db');
+
+// create admin
+const createAdmin = require('./configs/admin');
+
 // import the routes
 const userRoutes = require('./routes/user.routes');
 const authRoutes = require('./routes/auth.routes');
@@ -27,6 +33,21 @@ app.get('/', (req, res) => {
   // run the coomand "npm run dev" start backend using the nodemon
   res.send('This is School Bus Tracker Backend!');
 });
+
+// try {
+//   sequelize.authenticate();
+//   console.log('Connection has been established successfully.');
+// } catch (error) {
+//   console.error('Unable to connect to the database:', error);
+// }
+
+sequelize
+  .sync({ force: true })
+  .then(() => {
+    createAdmin();
+    console.log('Database connected and models synchronized');
+  })
+  .catch((err) => console.error('Error connecting to the database:', err));
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
