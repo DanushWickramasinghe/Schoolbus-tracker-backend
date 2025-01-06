@@ -1,14 +1,27 @@
 const { db } = require("../configs/firebase");
 const { collection, addDoc, query, getDocs } = require("firebase/firestore");
+const RegisteredVehicle = require("../models/registeredVehicle.model");
+
+// const vehicleRegisterService = async (vehicleData) => {
+//   try {
+//     console.log("Came here");
+//     const vehicleCollection = collection(db, "registered-vehicles");
+//     const docRef = await addDoc(vehicleCollection, vehicleData);
+//     console.log("Vehicle added with ID:", docRef.id);
+//     return docRef;
+//   } catch (error) {
+//     console.error("Error adding vehicle:", error);
+//   }
+// };
 
 const vehicleRegisterService = async (vehicleData) => {
   try {
-    const vehicleCollection = collection(db, "registered-vehicles");
-    const docRef = await addDoc(vehicleCollection, vehicleData);
-    console.log("Vehicle added with ID:", docRef.id);
-    return docRef;
+    console.log("Processing vehicle registration...");
+    const newVehicle = await RegisteredVehicle.create(vehicleData);
+    console.log("Vehicle registered with ID:", newVehicle.vehicle_number);
+    return newVehicle;
   } catch (error) {
-    console.error("Error adding vehicle:", error);
+    console.log("Error adding vehicle registration details:", error);
   }
 };
 
