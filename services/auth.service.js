@@ -1,9 +1,9 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
-const UserPassword = require('../models/userPassword.model');
-const UserRefreshToken = require('../models/userRefreshToken.model');
-const User = require('../models/user.model');
-const TempUser = require('../models/tempUser.model');
+const UserPassword = require("../models/userPassword.model");
+const UserRefreshToken = require("../models/userRefreshToken.model");
+const User = require("../models/user.model");
+const TempUser = require("../models/tempUser.model");
 
 const registerService = async (tempUser, password) => {
   try {
@@ -15,6 +15,7 @@ const registerService = async (tempUser, password) => {
       mobile_number: tempUser.mobile_number,
       date_of_birth: tempUser.date_of_birth,
       address: tempUser.address,
+      role: tempUser.role,
     });
 
     await UserPassword.create({

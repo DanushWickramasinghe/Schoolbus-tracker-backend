@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const config = require('../configs/config').jwt;
-const { sendEmailOtp, generateOtp } = require('../utils/otp.service');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const config = require("../configs/config").jwt;
+const { sendEmailOtp, generateOtp } = require("../utils/otp.service");
 const {
   loginService,
   saveRefreshToken,
@@ -10,17 +10,17 @@ const {
   getTempUser,
   deleteTempUser,
   getUser,
-} = require('../services/auth.service');
+} = require("../services/auth.service");
 
 const generateAccessToken = async (email, role) => {
   return jwt.sign({ email, role }, config.accessTokenSecret, {
-    expiresIn: '15m',
+    expiresIn: "15m",
   });
 };
 
 const generateRefreshToken = async (email, role) => {
   const accessToken = jwt.sign({ email, role }, config.refreshTokenSecret, {
-    expiresIn: '3h',
+    expiresIn: "3h",
   });
   try {
     await saveRefreshToken(email, accessToken);
@@ -40,19 +40,19 @@ const login = async (req, res) => {
       const accessToken = await generateAccessToken(user.email, user.role);
       const refreshToken = await generateRefreshToken(user.email, user.role);
       return res.status(200).json({
-        message: 'User logged in successfully',
+        message: "User logged in successfully",
         user,
         accessToken,
         refreshToken,
       });
     }
     return res.status(400).json({
-      message: 'Invalid credentials',
+      message: "Invalid credentials",
     });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 };
@@ -64,7 +64,7 @@ const register = async (req, res) => {
     const user = await getUser(email);
     if (user) {
       return res.status(400).json({
-        message: 'User already exists',
+        message: "User already exists",
       });
     }
 
@@ -88,13 +88,13 @@ const register = async (req, res) => {
     );
 
     return res.status(200).json({
-      message: 'OTP sent successfully',
+      message: "OTP sent successfully",
       email,
     });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 };
@@ -105,14 +105,14 @@ const verifyRegisterOtp = async (req, res) => {
     const tempUser = await getTempUser(email);
     if (!tempUser) {
       return res.status(400).json({
-        message: 'Invalid email',
+        message: "Invalid email",
       });
     }
 
     if (tempUser.otp_expiry < new Date()) {
       await deleteTempUser(email);
       return res.status(400).json({
-        message: 'OTP expired',
+        message: "OTP expired",
       });
     }
 
@@ -120,7 +120,7 @@ const verifyRegisterOtp = async (req, res) => {
 
     if (!isValid) {
       return res.status(400).json({
-        message: 'Invalid OTP',
+        message: "Invalid OTP",
       });
     }
 
@@ -128,12 +128,12 @@ const verifyRegisterOtp = async (req, res) => {
     await deleteTempUser(email);
 
     return res.status(200).json({
-      message: 'User registered successfully',
+      message: "User registered successfully",
     });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 };

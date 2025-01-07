@@ -1,6 +1,7 @@
 const { db } = require("../configs/firebase");
 const { collection, addDoc, query, getDocs } = require("firebase/firestore");
 const RegisteredVehicle = require("../models/registeredVehicle.model");
+const User = require("../models/user.model");
 
 // const vehicleRegisterService = async (vehicleData) => {
 //   try {
@@ -37,4 +38,33 @@ const viewVehicleDetailsService = async () => {
   }
 };
 
-module.exports = { vehicleRegisterService, viewVehicleDetailsService };
+const viewBusOwnerDetailsService = async () => {
+  try {
+    console.log("Fetching bus owner details from DB...");
+    const busOwners = await User.findAll({ where: { role: "DRIVER" } });
+    console.log("Fetched bus owner details:", busOwners);
+    return busOwners;
+  } catch (error) {
+    console.error("Error fetching bus owner details:", error);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
+};
+
+const viewPassengerDetailsService = async () => {
+  try {
+    console.log("Fetching passenger details from DB...");
+    const passengers = await User.findAll({ where: { role: "PASSENGER" } });
+    console.log("Fetched passenger details:", passengers);
+    return passengers;
+  } catch (error) {
+    console.error("Error fetching passenger details:", error);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
+};
+
+module.exports = {
+  vehicleRegisterService,
+  viewVehicleDetailsService,
+  viewBusOwnerDetailsService,
+  viewPassengerDetailsService,
+};

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 module.exports = {
   db: {
@@ -27,6 +27,7 @@ module.exports = {
     adminMobile: process.env.ADMIN_MOBILE_NUMBER,
     adminDateOfBirth: process.env.ADMIN_DATE_OF_BIRTH,
     adminAddress: process.env.ADMIN_ADDRESS,
+    adminRole: process.env.ADMIN_ROLE,
   },
 
   jwt: {
