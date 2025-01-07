@@ -7,6 +7,6 @@ const {
 
 // Register vehicle
 router.post("/bus-owner/register-bus", registerBus);
-router.get("/passenger/vehicle-details", viewVehicleDetails);
+router.get("/registered-vehicles", viewVehicleDetails);
 
 module.exports = router;

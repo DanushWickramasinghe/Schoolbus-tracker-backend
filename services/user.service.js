@@ -27,18 +27,9 @@ const vehicleRegisterService = async (vehicleData) => {
 
 const viewVehicleDetailsService = async () => {
   try {
-    const registeredVehicleListRef = collection(db, "registered-vehicles");
-    const q = query(registeredVehicleListRef);
-    const querySnapshot = await getDocs(q);
-
-    const vehicles = querySnapshot.docs.map((doc) => ({
-      vehicleid: doc.id,
-      NICnumber: doc.data().NICnumber,
-      ownername: doc.data().ownerName,
-      vehiclemodel: doc.data().vehicleModel,
-      vehiclenumber: doc.data().vehicleNumber,
-      vehicletype: doc.data().vehicleType,
-    }));
+    console.log("Fetching vehicle details from DB...");
+    const vehicles = await RegisteredVehicle.findAll();
+    console.log("Fetched vehicle details:", vehicles);
     return vehicles;
   } catch (error) {
     console.error("Error fetching vehicle details:", error);

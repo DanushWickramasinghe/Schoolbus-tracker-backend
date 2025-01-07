@@ -26,6 +26,7 @@ const registerBus = async (req, res) => {
 
 const viewVehicleDetails = async (req, res) => {
   try {
+    console.log("Fetching registered vehicles at backend...");
     const registeredvehicles = await viewVehicleDetailsService();
     if (registeredvehicles) {
       console.log(registeredvehicles);
@@ -35,7 +36,7 @@ const viewVehicleDetails = async (req, res) => {
       });
     }
     return res.status(400).json({
-      message: "Registration process did not succeed.",
+      message: "Fetching registered vehicles did not succeed.",
     });
   } catch (error) {
     console.error(error);
