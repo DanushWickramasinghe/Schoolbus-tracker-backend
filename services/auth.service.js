@@ -3,17 +3,36 @@ const bcrypt = require('bcrypt');
 const UserPassword = require('../models/userPassword.model');
 const UserRefreshToken = require('../models/userRefreshToken.model');
 const User = require('../models/user.model');
+const TempUser = require('../models/tempUser.model');
 
-const registerService = async (username, email, password) => {
+const registerService = async (tempUser, password) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = userCredential.user;
-    console.log(user);
+    await User.create({
+      email: tempUser.email,
+      name: tempUser.name,
+      mobile_number: tempUser.mobile_number,
+      date_of_birth: tempUser.date_of_birth,
+      address: tempUser.address,
+    });
+
+    await UserPassword.create({
+      email: tempUser.email,
+      password_hash: hashedPassword,
+      role: tempUser.role,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getUser = async (email) => {
+  try {
+    const user = await User.findOne({
+      where: { email: email },
+    });
+
     return user;
   } catch (error) {
     console.error(error);
@@ -67,4 +86,61 @@ const saveRefreshToken = async (email, refreshToken) => {
   }
 };
 
-module.exports = { registerService, loginService, saveRefreshToken };
+const saveTempUser = async (
+  email,
+  name,
+  mobile_number,
+  date_of_birth,
+  address,
+  role,
+  hashed_otp,
+  otp_expiry
+) => {
+  try {
+    await TempUser.create({
+      email: email,
+      name: name,
+      mobile_number: mobile_number,
+      date_of_birth: date_of_birth,
+      address: address,
+      role: role,
+      hashed_otp: hashed_otp,
+      otp_expiry: otp_expiry,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getTempUser = async (email) => {
+  try {
+    const tempUser = await TempUser.findOne({
+      where: { email: email },
+    });
+
+    return tempUser;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const deleteTempUser = async (email) => {
+  try {
+    await TempUser.destroy({
+      where: { email: email },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+module.exports = {
+  registerService,
+  loginService,
+  saveRefreshToken,
+  saveTempUser,
+  getTempUser,
+  deleteTempUser,
+  getUser,
+};

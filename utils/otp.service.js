@@ -1,6 +1,10 @@
 const nodemailer = require('nodemailer');
 const config = require('../configs/config').gmail;
 
+const generateOtp = () => {
+  return Math.floor(100000 + Math.random() * 900000);
+};
+
 // Function to send OTP via email (using Nodemailer)
 const sendEmailOtp = async (email, otp) => {
   let transporter = nodemailer.createTransport({
@@ -19,4 +23,4 @@ const sendEmailOtp = async (email, otp) => {
   });
 };
 
-module.exports = { sendEmailOtp };
+module.exports = { sendEmailOtp, generateOtp };
