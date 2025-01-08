@@ -62,9 +62,22 @@ const viewPassengerDetailsService = async () => {
   }
 };
 
+const viewAdminDetailsService = async () => {
+  try {
+    console.log("Fetching admin details from DB...");
+    const admins = await User.findAll({ where: { role: "ADMIN" } });
+    console.log("Fetched admin details:", admins);
+    return admins;
+  } catch (error) {
+    console.error("Error fetching admin details:", error);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
+};
+
 module.exports = {
   vehicleRegisterService,
   viewVehicleDetailsService,
   viewBusOwnerDetailsService,
   viewPassengerDetailsService,
+  viewAdminDetailsService,
 };

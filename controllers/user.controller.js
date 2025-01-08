@@ -3,6 +3,7 @@ const {
   viewVehicleDetailsService,
   viewBusOwnerDetailsService,
   viewPassengerDetailsService,
+  viewAdminDetailsService,
 } = require("../services/user.service");
 
 const registerBus = async (req, res) => {
@@ -92,9 +93,32 @@ const viewPassengerDetails = async (req, res) => {
   }
 };
 
+const viewAdminDetails = async (req, res) => {
+  try {
+    console.log("Fetching admin details at backend...");
+    const adminDetails = await viewAdminDetailsService();
+    if (adminDetails) {
+      console.log(adminDetails);
+      return res.status(200).json({
+        message: "Admin details fetched successfully",
+        adminDetails,
+      });
+    }
+    return res.status(400).json({
+      message: "Fetching admin details did not succeed.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   registerBus,
   viewVehicleDetails,
   viewBusOwnerDetails,
   viewPassengerDetails,
+  viewAdminDetails,
 };
