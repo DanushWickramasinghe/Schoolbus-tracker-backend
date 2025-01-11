@@ -6,6 +6,7 @@ const {
   viewBusOwnerDetails,
   viewPassengerDetails,
   viewAdminDetails,
+  viewDashboardData,
 } = require("../controllers/user.controller");
 
 // Register vehicle
@@ -14,5 +15,6 @@ router.get("/registered-vehicles", viewVehicleDetails);
 router.get("/bus-owner-data", viewBusOwnerDetails);
 router.get("/passenger-data", viewPassengerDetails);
 router.get("/admin-data", viewAdminDetails);
+router.get("/dashboard-data", viewDashboardData);
 
 module.exports = router;

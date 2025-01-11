@@ -4,6 +4,7 @@ const {
   viewBusOwnerDetailsService,
   viewPassengerDetailsService,
   viewAdminDetailsService,
+  viewDashboardDataService,
 } = require("../services/user.service");
 
 const registerBus = async (req, res) => {
@@ -115,10 +116,33 @@ const viewAdminDetails = async (req, res) => {
   }
 };
 
+const viewDashboardData = async (req, res) => {
+  try {
+    console.log("Fetching dashboard data at backend...");
+    const dashboardData = await viewDashboardDataService();
+    if (dashboardData) {
+      console.log(dashboardData);
+      return res.status(200).json({
+        message: "Dashboard data fetched successfully",
+        dashboardData,
+      });
+    }
+    return res.status(400).json({
+      message: "Fetching dashboard data did not succeed.",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
 module.exports = {
   registerBus,
   viewVehicleDetails,
   viewBusOwnerDetails,
   viewPassengerDetails,
   viewAdminDetails,
+  viewDashboardData,
 };

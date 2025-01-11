@@ -2,6 +2,7 @@ const { db } = require("../configs/firebase");
 const { collection, addDoc, query, getDocs } = require("firebase/firestore");
 const RegisteredVehicle = require("../models/registeredVehicle.model");
 const User = require("../models/user.model");
+const { Op } = require("sequelize");
 
 // const vehicleRegisterService = async (vehicleData) => {
 //   try {
@@ -74,10 +75,27 @@ const viewAdminDetailsService = async () => {
   }
 };
 
+const viewDashboardDataService = async () => {
+  try {
+    const totalUsers = await User.count({
+      where: { role: { [Op.ne]: "ADMIN" } },
+    });
+    const totalVehicles = await RegisteredVehicle.count();
+    const totalBusOwners = await User.count({ where: { role: "DRIVER" } });
+    const totalPassengers = await User.count({ where: { role: "PASSENGER" } });
+    console.log("Total users excluding ADMIN:", totalUsers);
+    return { totalUsers, totalVehicles, totalBusOwners, totalPassengers };
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
+};
+
 module.exports = {
   vehicleRegisterService,
   viewVehicleDetailsService,
   viewBusOwnerDetailsService,
   viewPassengerDetailsService,
   viewAdminDetailsService,
+  viewDashboardDataService,
 };
