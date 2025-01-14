@@ -7,7 +7,8 @@ const {
   verifyRegisterOtp,
 } = require("../controllers/auth.controller");
 
-router.post("/login", login); // api/auth/login
+// Index.js will direct the request here, and it will be redirected to the appropriate controller.
+router.post("/login", login);
 router.post("/register", register);
 router.post("/refresh-token", refreshToken);
 router.post("/verify-otp", verifyRegisterOtp);

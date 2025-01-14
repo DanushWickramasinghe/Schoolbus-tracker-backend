@@ -9,7 +9,7 @@ const {
   viewDashboardData,
 } = require("../controllers/user.controller");
 
-// Register vehicle
+// Index.js will direct the request here, and it will be redirected to the appropriate controller.
 router.post("/bus-owner/register-bus", registerBus);
 router.get("/registered-vehicles", viewVehicleDetails);
 router.get("/bus-owner-data", viewBusOwnerDetails);
