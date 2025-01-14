@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 module.exports = {
+  // To handle postgress configuration used to store user data of the application.
   db: {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -9,6 +10,7 @@ module.exports = {
     dialect: process.env.DB_DIALECT,
   },
 
+  // To handle firebase configuration, used to retrive location details real time. ( Uses firestore. )
   firebase: {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -19,6 +21,7 @@ module.exports = {
     messurmentId: process.env.FIREBASE_MESSUREMENT_ID,
   },
 
+  // Admin configuration to store admin details of the application.
   admin: {
     adminEmail: process.env.ADMIN_EMAIL,
     adminPassword: process.env.ADMIN_PASSWORD,
